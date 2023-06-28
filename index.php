@@ -1,36 +1,32 @@
 <?php
+// Lấy thông tin về phương thức và URI hiện tại
+$httpMethod = $_SERVER['REQUEST_METHOD'];
 $mod = $_GET['mod'] ?? 'user';
 $act = $_GET['act'] ?? 'list';
+// Xóa phần tử đầu tiên và thứ hai khỏi mảng segments
+// Gán các giá trị còn lại trong segments vào mảng params
+$controllerClassName = ucfirst($mod) . 'Controller';
+$controllerFile = "controllers/" . $controllerClassName . '.php';
+// Kiểm tra sự tồn tại của file controller
+if (file_exists($controllerFile)) {
+    // Include file controller
+    require_once $controllerFile;
 
-if ($mod == 'user') {
-    require_once('controllers/UserController.php');
-    $user_controller = new userController();
+    // Kiểm tra sự tồn tại của class controller
+    if (class_exists($controllerClassName)) {
+        // Tạo đối tượng controller
+        $controllerObject = new $controllerClassName();
 
-    switch ($act) {
-        case 'list':
-            $user_controller->list();
-            break;
-        case 'add':
-            $user_controller->add();
-            break;
-        case 'store':
-            $user_controller->store();
-            break;
-        case 'detail':
-            $user_controller->detail();
-            break;
-        case 'edit':
-            $user_controller->edit();
-            break;
-        case 'update':
-            $user_controller->update();
-            break;
-        case 'delete':
-            $user_controller->delete();
-            break;
-        default:
-            echo "<br>không có gì hết.";
-            break;
+        // Kiểm tra sự tồn tại của action trong controller
+        if (method_exists($controllerObject, $act)) {
+            // Gọi action và truyền các tham số
+            call_user_func_array([$controllerObject, $act], array());
+        } else {
+            echo '404 Not Found';
+        }
+    } else {
+        echo '404 Not Found';
     }
+} else {
+    echo '404 Not Found';
 }
-?>
