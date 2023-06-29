@@ -18,7 +18,7 @@
 require_once('views/header.php');
 ?>
 <div class="container">
-    <h3 align="center">UPDATE INFORMATION</h3>
+    <h3>UPDATE INFORMATION</h3>
     <?php
     if (isset($_COOKIE['msg'])) {
         ?>
@@ -29,7 +29,7 @@ require_once('views/header.php');
     }
     ?>
     <hr>
-    <form action="?mod=user&act=update" method="POST" role="form" enctype="multipart/form-data">
+    <form action="?mod=product&act=update" method="POST" role="form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="">Mã khách hàng</label>
             <input type="text" class="form-control" id="" placeholder="Mã khách hàng" name="code"

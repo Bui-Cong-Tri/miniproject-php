@@ -14,7 +14,7 @@ require_once('views/header.php');
   <!-- Page Content -->
   <h1>CUSTOMERS</h1>
   <hr>
-  <a href="?mod=user&act=add" class="btn btn-primary">Add new customer</a>
+  <a href="?mod=product&act=add" class="btn btn-primary">Add new customer</a>
   <?php 
   if (isset($_COOKIE['msg'])) {
     ?>
@@ -58,8 +58,8 @@ require_once('views/header.php');
               <td  style="text-align: center;">
 
                 <a data-id="<?php echo $row['code']?>" class="btn btn-success">Detail</a> 
-                <a href="?mod=user&act=edit&code=<?php echo $row['code']; ?>" class="btn btn-warning">Update</a>
-                <a href="?mod=user&act=delete&code=<?php echo $row['code']; ?>" class="btn btn-danger delete">Delete</a>
+                <a href="?mod=product&act=edit&code=<?php echo $row['code']; ?>" class="btn btn-warning">Update</a>
+                <a href="?mod=product&act=delete&code=<?php echo $row['code']; ?>" class="btn btn-danger delete">Delete</a>
 
               </td>
             </tr>
@@ -77,7 +77,7 @@ require_once('views/header.php');
         var code = $(this).attr("data-id");
          $.ajax({
           type: "GET",
-          url: "?mod=user&act=detail&id="+code,
+          url: "?mod=product&act=detail&id="+code,
           data:{
 
           },
