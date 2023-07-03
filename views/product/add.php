@@ -18,43 +18,38 @@ require_once('views/header.php');
 ?>
 <body>
 <div class="container">
-    <h3>ADD A NEW USER</h3>
+    <h3>Thêm sản phẩm</h3>
     <?php
     if (isset($_COOKIE['msg'])) {
         ?>
         <div class="alert alert-danger">
-            <strong>Danger!</strong> <?php echo $_COOKIE['msg']; ?>
+            <strong>Cảnh báo!</strong> <br><?php echo $_COOKIE['msg']; ?>
         </div>
         <?php
     }
     ?>
     <hr>
-    <form action="?mod=user&act=store" method="POST" role="form" enctype="multipart/form-data">
+    <form action="?mod=product&act=store" method="POST" role="form" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="">Mã khách hàng</label>
-            <input type="text" class="form-control" id="" placeholder="Mã khách hàng" name="code">
+            <label for="code">Mã sản phẩm</label>
+            <input required type="text" class="form-control" id="code" placeholder="Mã sản phẩm" name="code">
         </div>
         <div class="form-group">
-            <label for="">Tên khách hàng</label>
-            <input type="text" class="form-control" id="" placeholder="Nhập vào tên khách hàng" name="name">
+            <label for="name">Tên sản phẩm</label>
+            <input required type="text" class="form-control" id="name" placeholder="Nhập vào tên sản phẩm"
+                   name="name">
         </div>
         <div class="form-group">
-            <label for="">Số điện thoại</label>
-            <input type="number" class="form-control" id="" placeholder="Nhập vào số điện thoại" name="mobile">
+            <label for="description">Mô tả</label>
+            <textarea type="text" class="form-control" id="description" placeholder="Nhập vào mô tả sản phẩm"
+                      name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="">Email</label>
-            <input type="email" class="form-control" id="" placeholder="Nhập vào email" name="email">
-        </div>
-        <div class="form-group">
-            <label for="">Địa chỉ</label>
-            <input type="text" class="form-control" id="" placeholder="Nhập vào địa chỉ" name="address">
+            <label for="quanity">Số lượng</label>
+            <input required type="number" class="form-control" id="quanity" name="quanity" value="1">
         </div>
         <button type="submit" class="btn btn-primary" name="submit">Lưu thông tin</button>
     </form>
 </div>
-<?php
-require_once('views/footer.php');
-?>
 </body>
 </html>

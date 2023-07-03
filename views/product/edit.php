@@ -18,12 +18,12 @@
 require_once('views/header.php');
 ?>
 <div class="container">
-    <h3>UPDATE INFORMATION</h3>
+    <h3>Cập nhật thông tin sản phẩm</h3>
     <?php
     if (isset($_COOKIE['msg'])) {
         ?>
         <div class="alert alert-danger">
-            <strong>Danger!</strong> <?php echo $_COOKIE['msg']; ?>
+            <strong>Cảnh báo!</strong> <?php echo $_COOKIE['msg']; ?>
         </div>
         <?php
     }
@@ -59,8 +59,5 @@ require_once('views/header.php');
         <button type="submit" class="btn btn-primary">Lưu thông tin</button>
     </form>
 </div>
-<?php
-require_once('views/footer.php');
-?>
 </body>
 </html>
