@@ -1,17 +1,16 @@
 <?php
-
-trait JwtUtils
+class JwtUtils
 {
-    private static $secretToken = "432A462D4A614E635266556A586E3272357538782F413F4428472B4B62506553";
-    private static $expirationTime = 3600 * 24;
+    private static string $secretToken = "432A462D4A614E635266556A586E3272357538782F413F4428472B4B62506553";
+    private static int|float $expirationTime = 3600 * 24;
 
-    function base64UrlEncode($data)
+    private function base64UrlEncode($data): array|string
     {
         $base64 = base64_encode($data);
         return str_replace(['+', '/', '='], ['-', '_', ''], $base64);
     }
 
-    function base64UrlDecode($data)
+    private function base64UrlDecode($data): bool|string
     {
         $base64 = str_replace(['-', '_'], ['+', '/'], $data);
         $base64Pad = $base64 . substr('==', (2 - strlen($data) * 3) % 4);
@@ -32,12 +31,6 @@ trait JwtUtils
         return $headerBase64 . '.' . $payloadBase64 . '.' . $signatureBase64;
     }
 
-    function generateToken($user): string
-    {
-        $header = ['alg' => 'HS256', 'typ' => 'JWT'];
-        $payload = ['user' => ['code' => $user['code'], 'email' => $user['email']], 'iat' => time(), 'exp' => time() + self::$expirationTime];
-        return $this->createJwtToken($header, $payload, self::$secretToken);
-    }
 
     private function verifyJwtToken($jwtToken): bool
     {
@@ -58,7 +51,7 @@ trait JwtUtils
         return true;
     }
 
-    function isTokenValid($token): bool
+    public function isTokenValid($token): bool
     {
         if (!$this->base64UrlDecode($token)) {
             return false;
@@ -79,10 +72,17 @@ trait JwtUtils
         }
     }
 
-    function extractUser($token)
+    public function extractUser($token)
     {
         $token = explode('.', $token);
         $payload = json_decode($this->base64UrlDecode($token[1]));
         return $payload->user;
+    }
+
+    public function generateToken($user): string
+    {
+        $header = ['alg' => 'HS256', 'typ' => 'JWT'];
+        $payload = ['user' => ['code' => $user['code'], 'email' => $user['email']], 'iat' => time(), 'exp' => time() + self::$expirationTime];
+        return $this->createJwtToken($header, $payload, self::$secretToken);
     }
 }
