@@ -1,5 +1,3 @@
-<!-- login-form.php - File chứa giao diện form đăng nhập -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +9,16 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h2 class="mt-4">Đăng nhập</h2>
-            <form action="" method="post">
+            <?php
+            if (isset($_COOKIE['msg'])) {
+                ?>
+                <div class="alert alert-danger">
+                    <strong>Cảnh báo!</strong> <?php echo $_COOKIE['msg']; ?>
+                </div>
+                <?php
+            }
+            ?>
+            <form action="?mod=authentication&act=authenticate" method="post" role="form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="text" class="form-control" id="email" name="email" required>

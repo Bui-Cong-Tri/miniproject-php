@@ -34,11 +34,7 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="/index.php">Quản lý</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fas fa-bars"></i>
-    </button>
+    <a class="navbar-brand mr-1" href="/mvc_demo/index.php">Quản lý</a>
 
     <div class="nav-item dropdown no-arrow ml-auto dropleft">
         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"

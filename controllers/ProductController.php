@@ -44,8 +44,8 @@ class ProductController
             }
         } catch (FormValidationException $e) {
             setcookie('msg', $e->getMessage(), time() + 1);
-            header('location: index.php?mod=product&act=add');        }
-
+            header('location: index.php?mod=product&act=add');
+        }
     }
 
     function edit(): void
