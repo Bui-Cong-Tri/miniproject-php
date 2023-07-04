@@ -1,17 +1,21 @@
 <?php
 include_once('utils/JwtFilter.php');
 include_once('enumeration/Permission.php');
-
+include_once('utils/JwtUtils.php');
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $mod = $_GET['mod'] ?? 'product';
 $act = $_GET['act'] ?? 'list';
+
+$result = Permission::isNeedAuthenticate($mod, $act);
+if ($result) {
+    $filter = new JwtFilter();
+    if (!$filter->isAuthenticated()) {
+        $mod = 'authentication';
+        $act = 'login';
+    }
+}
 $controllerClassName = ucfirst($mod) . 'Controller';
 $controllerFile = "controllers/" . $controllerClassName . '.php';
-
-if (!Permission::isNeedAuthenticate($mod, $act)) {
-    $tokenFilter = new JwtFilter();
-//    $tokenFilter->authFilter();
-}
 
 if (file_exists($controllerFile)) {
     require_once $controllerFile;

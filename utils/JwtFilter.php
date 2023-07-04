@@ -1,37 +1,29 @@
 <?php
-include_once('utils/JwtUtils.php');
+require_once('utils/JwtUtils.php');
 
 class JwtFilter
 {
-    private JwtUtils $jwtUtils;
+    var JwtUtils $jwtUtils;
 
     function __construct()
     {
-        $jwtUtils = new JwtUtils();
+        $this->jwtUtils = new JwtUtils();
     }
-    private function isAuthenticated(): bool
+
+    public function isAuthenticated(): bool
     {
-        $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];
-        if (str_starts_with($authorizationHeader, 'Bearer')) {
-            $token = substr($authorizationHeader, 7);
-            if ($this->jwtUtils->isTokenValid($token)) {
-                echo "Authenticated";
+        if (isset($_COOKIE['accessToken'])) {
+            $result = $this->jwtUtils->isTokenValid($_COOKIE['accessToken']);
+            if ($result) {
                 return true;
             } else {
-                echo "Invalid token";
+                setcookie('msg', 'Token không hợp lệ', time() + 1);
                 return false;
             }
         } else {
-            echo "Anonymous";
+            setcookie('msg', 'Phiên đăng nhập đã hết hạn', time() + 1);
             return false;
         }
     }
 
-    public function authFilter(): void
-    {
-        if (!$this->isAuthenticated()) {
-            include 'views/login-form.php';
-            exit();
-        }
-    }
 }

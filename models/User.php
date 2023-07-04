@@ -1,45 +1,52 @@
 <?php
-	include_once('Connection.php');
-	class User{
 
-		function All(): array
-        {
-            global $conn;
-            require_once('db_connect.php');
-			$data = array();
-			$sql = "SELECT * FROM customers";
-			$result = $conn->query($sql);
-			while($row = $result->fetch_assoc()){
-				$data[] = $row;
-			}
-			return $data;
-		}
+include_once('Connection.php');
 
-		function find($code){
-            global $conn;
-            require_once('db_connect.php');
-			$sql = "SELECT * FROM customers WHERE code='".$code."'";
-            return $conn->query($sql)->fetch_assoc();
-		}
+class User
+{
+    function authenticate($data): bool|array|null
+    {
+        global $conn;
+        require_once('db_connect.php');
+        $sql = "SELECT * FROM users WHERE email='" . $data["email"] . "'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        if ($row["email"] === $data["email"] && password_verify($data["password"], $row["password"])) {
+            return $row;
+        } else {
+            return null;
+        }
+    }
 
-		function insert($data){
-            global $conn;
-            require_once('db_connect.php');
-			$sql = "INSERT INTO customers (code,name,mobile,email,address) VALUES ('".$data['code']."','".$data['name']."','".$data['mobile']."','".$data['email']."','".$data['address']."')";
-            return $conn->query($sql);
-		}
-		function update($data){
-            global $conn;
-            require_once('db_connect.php');
-			$sql = "UPDATE customers SET name='".$data['name']."',mobile='".$data['mobile']."',email='".$data['email']."',address='".$data['address']."' WHERE code='".$data['code']."'";
-            return $conn->query($sql);
-		}
+    /**
+     * @throws FormValidationException
+     * @throws Exception
+     */
+    public function insert(array $data): mysqli_result|bool
+    {
+        global $conn;
+        require_once('exception/FormValidationException.php');
+        require_once('db_connect.php');
+//        $err = $this->validate($data);
+//        if (!empty($err)) {
+//            throw new FormValidationException($err);
+//        }
+        $data["password"] = password_hash($data["password"], PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (code,name,email,mobile,address,password) VALUES ('" . $this->randomCodeString() . "','" . $data['name'] . "','" . $data["email"] . "','','','" . $data["password"] . "')";
+        return $conn->query($sql);
+    }
 
-		function delete($data){
-            global $conn;
-            require_once('db_connect.php');
-			$sql = "DELETE FROM customers WHERE code='".$data."'";
-            return $conn->query($sql);
-		}
-	}
- ?>
+    private function validate(array $data): array
+    {
+        return $data;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function randomCodeString(): string
+    {
+        $randomBytes = random_bytes(4);
+        return bin2hex($randomBytes);
+    }
+}

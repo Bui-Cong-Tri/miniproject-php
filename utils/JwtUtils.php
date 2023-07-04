@@ -1,8 +1,10 @@
 <?php
+
 class JwtUtils
 {
     private static string $secretToken = "432A462D4A614E635266556A586E3272357538782F413F4428472B4B62506553";
-    private static int|float $expirationTime = 3600 * 24;
+    public static int|float $expirationTime = 3600 * 24;
+    public static int|float $expirationTimeForRememberMe = 3600 * 24 * 30;
 
     private function base64UrlEncode($data): array|string
     {
@@ -57,7 +59,7 @@ class JwtUtils
             return false;
         } else {
             $splitToken = explode('.', $token);
-            $payload = $this->base64UrlDecode($splitToken[1]);
+            $payload = json_decode($this->base64UrlDecode($splitToken[1]));
             $header = $this->base64UrlDecode($splitToken[0]);
             if (isset($payload->exp) && $payload->exp < time()) {
                 return false;
@@ -79,10 +81,16 @@ class JwtUtils
         return $payload->user;
     }
 
-    public function generateToken($user): string
+    public function generateToken($user, $remember): string
     {
+        $expirationTime = 0;
+        if ($remember === 'on') {
+            $expirationTime = self::$expirationTimeForRememberMe;
+        } else {
+            $expirationTime = self::$expirationTime;
+        }
         $header = ['alg' => 'HS256', 'typ' => 'JWT'];
-        $payload = ['user' => ['code' => $user['code'], 'email' => $user['email']], 'iat' => time(), 'exp' => time() + self::$expirationTime];
+        $payload = ['user' => ['code' => $user['code'], 'email' => $user['email']], 'iat' => time(), 'exp' => time() + $expirationTime];
         return $this->createJwtToken($header, $payload, self::$secretToken);
     }
 }
