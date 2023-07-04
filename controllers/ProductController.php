@@ -32,7 +32,9 @@ class ProductController
     {
         $data = $_POST;
         try {
+            echo "ok";
             $status = $this->model->insert($data);
+            echo $status;
             if ($status) {
                 setcookie('msg', 'Thêm mới thành công', time() + 1);
                 header('location: index.php?mod=product');
@@ -56,6 +58,7 @@ class ProductController
     function update(): void
     {
         $data = $_POST;
+        echo $data['quantity'];
         try {
             $status = $this->model->update($data);
             if ($status) {
