@@ -5,8 +5,8 @@
 		function __construct()
 		{
 			$servername = "localhost";
-			$username = "root";
-			$password = "Pass@123";
+			$username = "minhngoc";
+			$password = "minhngoc2207";
 			$dbname = "QLSV";
 
 			// Create connection
