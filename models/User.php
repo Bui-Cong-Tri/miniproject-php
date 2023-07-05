@@ -9,7 +9,9 @@ class User extends Model
         $sql = "SELECT * FROM users WHERE email='" . $data["email"] . "'";
         $result = $this->conn->query($sql);
         $row = $result->fetch_assoc();
-        if ($row["email"] === $data["email"] && password_verify($data["password"], $row["password"])) {
+        echo $row['email'];
+        //password_verify($data["password"], $row["password"])
+        if ($row["email"] === $data["email"] && $data["password"] === $row["password"]) {
             return $row;
         } else {
             return null;
@@ -27,7 +29,7 @@ class User extends Model
 //        if (!empty($err)) {
 //            throw new FormValidationException($err);
 //        }
-        $data["password"] = password_hash($data["password"], PASSWORD_DEFAULT);
+       // $data["password"] = password_hash($data["password"], PASSWORD_DEFAULT);
         $sql = "INSERT INTO users (code,name,email,mobile,address,password) VALUES ('" . $this->randomCodeString() . "','" . $data['name'] . "','" . $data["email"] . "','','','" . $data["password"] . "')";
         return $this->conn->query($sql);
     }

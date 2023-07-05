@@ -50,6 +50,11 @@ require_once('views/header.php');
             <input type="number" class="form-control" id="" placeholder="Nhập vào số lượng sản phẩm" name="quantity"
                    value="<?= $data['quantity'] ?>">
         </div>
+        <div class="form-group">
+            <label for="">Ảnh sản phẩm</label>
+            <input type="file" name="photo" class="form-control">
+            <img src="<?=$data['image']?>" style="width: 200px" class="img-thumbnail" alt="">
+        </div>
 
         <button type="submit" class="btn btn-primary">Lưu thông tin</button>
     </form>

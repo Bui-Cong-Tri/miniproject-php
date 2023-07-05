@@ -48,6 +48,10 @@ require_once('views/header.php');
             <label for="quantity">Số lượng</label>
             <input required type="number" class="form-control" id="quantity" name="quantity" value="1">
         </div>
+        <div class="form-group">
+            <label for="photo">Ảnh sản phẩm</label>
+            <input type="file" class="form-control" id="photo" name="photo">
+        </div>
         <button type="submit" class="btn btn-primary" name="submit">Lưu thông tin</button>
     </form>
 </div>
