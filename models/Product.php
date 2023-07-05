@@ -29,6 +29,7 @@ class Product
      */
     function insert($data): mysqli_result|bool|array
     {
+        echo $data['name'];
         global $conn;
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
@@ -36,8 +37,17 @@ class Product
             throw new FormValidationException($err);
         }
         require_once('db_connect.php');
-        $sql = "INSERT INTO products (code,name,description,quanity) VALUES ('" . $data['code'] . "','" . $data['name'] . "','" . $data['description'] . "','" . $data['quanity'] . "')";
-        return $conn->query($sql);
+        //if($conn->query($sql) === false) echo mysqli_error($conn);
+        try {
+            $stm = $conn->prepare("INSERT INTO products (code, name, description, quantity) VALUES (?, ?, ?, ?)");
+            $stm->bind_param('sssi', $data['code'], $data['name'], $data['description'], $data['quantity']);
+            $stm->execute();
+            $stm->close();
+        } catch (Exception $e) {
+            echo $e;
+        }
+        $conn->close();
+        return true;
     }
 
     /**
@@ -52,7 +62,7 @@ class Product
             throw new FormValidationException($err);
         }
         require_once('db_connect.php');
-        $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quanity'] . "' WHERE code='" . $data['code'] . "'";
+        $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quantity'] . "' WHERE code='" . $data['code'] . "'";
         return $conn->query($sql);
     }
 
@@ -67,7 +77,7 @@ class Product
     function validate($data): array
     {
         $codeErr = $nameErr = $descriptionErr = $quanityErr = "";
-        $code = $name = $email = $description = $quanity = "";
+        $code = $name = $email = $description = $quantity = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($data["code"])) {
                 $codeErr = "Mã sản phẩm là trường bắt buộc.";
@@ -95,9 +105,9 @@ class Product
                 }
             }
             if (!empty($data["quanity"])) {
-                $quanity = $this->test_input($data["quanity"]);
-                if (!ctype_digit($quanity)) {
-                    $quanityErr = "Số lượng bắt buộc phải là số.";
+                $quantity = $this->test_input($data["quanity"]);
+                if (!ctype_digit($quantity)) {
+                    $quantityErr = "Số lượng bắt buộc phải là số.";
                 }
             }
         }

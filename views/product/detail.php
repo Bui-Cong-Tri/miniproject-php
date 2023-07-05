@@ -19,7 +19,7 @@ require_once('views/header.php');
             </div>
             <div class="col-md-8">
                 <label class="font-weight-bold">Số lượng</label>
-                <p><?php echo $data["quanity"] ?></p>
+                <p><?php echo $data["quantity"] ?></p>
             </div>
         </div>
         <div class="row row col-md-8">
