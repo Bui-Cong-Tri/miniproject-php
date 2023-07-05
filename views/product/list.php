@@ -1,5 +1,7 @@
 <?php
 require_once('views/header.php');
+//include_once("models/Product.php");
+//$pro = new Product();
 ?>
     <div class="container-fluid">
 
@@ -14,7 +16,7 @@ require_once('views/header.php');
         <!-- Page Content -->
         <h1>Sản phẩm</h1>
         <hr>
-        <a href="?mod=product&act=add" class="btn btn-primary">Add new customer</a>
+        <a href="?mod=product&act=add" class="btn btn-primary">Thêm sản phẩm mới</a>
         <?php
         if (isset($_COOKIE['msg'])) {
             ?>
@@ -37,8 +39,8 @@ require_once('views/header.php');
                 <table class="table table-bordered" id="products-table" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Mã khách hàng</th>
-                        <th>Tên khách hàng</th>
+                        <th>Mã Sản phẩm</th>
+                        <th>Tên sản phẩm</th>
                         <th>Mô tả sản phẩm</th>
                         <th>Số lượng</th>
                         <th style="text-align: center;">Actions</th>
@@ -46,13 +48,14 @@ require_once('views/header.php');
                     </thead>
                     <tbody>
                     <?php
+//                    $data = $pro->All();
                     foreach ($data as $row) {
                         ?>
                         <tr>
                             <td><?php echo $row['code']; ?></td>
                             <td><?php echo $row['name']; ?></td>
                             <td><?php echo $row['description']; ?></td>
-                            <td><?php echo $row['quanity']; ?></td>
+                            <td><?php echo $row['quantity']; ?></td>
                             <td style="text-align: center;">
 
                                 <a href="?mod=product&act=detail&code=<?php echo $row['code']; ?>"

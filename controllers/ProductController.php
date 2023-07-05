@@ -10,7 +10,7 @@ class ProductController
         $this->model = new Product();
     }
 
-    function list()
+    function list(): void
     {
         $data = $this->model->All();
         require_once('views/product/list.php');
@@ -23,7 +23,7 @@ class ProductController
         require_once('views/product/detail.php');
     }
 
-    function add()
+    function add(): void
     {
         require_once('views/product/add.php');
     }
@@ -63,11 +63,11 @@ class ProductController
                 header('location: index.php?mod=product');
             } else {
                 setcookie('msg', 'Sửa thất bại.', time() + 1);
-                header('location: index.php?mod=product&act=edit');
+                header('location: index.php?mod=product&act=edit&code=' . $data["code"]);
             }
         } catch (FormValidationException $e) {
             setcookie('msg', $e->getMessage(), time() + 1);
-            header('location: index.php?mod=product&act=edit');
+            header('location: index.php?mod=product&act=edit&code=' . $data["code"]);
         }
     }
 
@@ -84,5 +84,3 @@ class ProductController
         }
     }
 }
-
-?>

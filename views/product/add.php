@@ -45,8 +45,8 @@ require_once('views/header.php');
                       name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="quanity">Số lượng</label>
-            <input required type="number" class="form-control" id="quanity" name="quanity" value="1">
+            <label for="quantity">Số lượng</label>
+            <input required type="number" class="form-control" id="quantity" name="quantity" value="1">
         </div>
         <button type="submit" class="btn btn-primary" name="submit">Lưu thông tin</button>
     </form>

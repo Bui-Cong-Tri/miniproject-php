@@ -31,29 +31,24 @@ require_once('views/header.php');
     <hr>
     <form action="?mod=product&act=update" method="POST" role="form" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="">Mã khách hàng</label>
-            <input type="text" class="form-control" id="" placeholder="Mã khách hàng" name="code"
+            <label for="">Mã sản phẩm </label>
+            <input type="text" class="form-control" id="" placeholder="Mã sản phẩm " name="code"
                    value="<?= $data['code'] ?>" readonly>
         </div>
         <div class="form-group">
-            <label for="">Tên khách hàng</label>
-            <input type="text" class="form-control" id="" placeholder="Nhập vào tên khách hàng" name="name"
+            <label for="">Tên sản phẩm</label>
+            <input type="text" class="form-control" id="" placeholder="Nhập vào tên sản phẩm " name="name"
                    value="<?= $data['name'] ?>">
         </div>
         <div class="form-group">
-            <label for="">Số điện thoại</label>
-            <input type="number" class="form-control" id="" placeholder="Nhập vào số điện thoại" name="mobile"
-                   value="<?= $data['mobile'] ?>">
+            <label for="">Mô tả</label>
+            <input type="text" class="form-control" id="" placeholder="Nhập vào mô tả sản phẩm" name="description"
+                   value="<?= $data['description'] ?>">
         </div>
         <div class="form-group">
-            <label for="">Email</label>
-            <input type="email" class="form-control" id="" placeholder="Nhập vào email" name="email"
-                   value="<?= $data['email'] ?>">
-        </div>
-        <div class="form-group">
-            <label for="">Địa chỉ</label>
-            <input type="text" class="form-control" id="" placeholder="Nhập vào địa chỉ" name="address"
-                   value="<?= $data['address'] ?>">
+            <label for="">Số lượng</label>
+            <input type="number" class="form-control" id="" placeholder="Nhập vào số lượng sản phẩm" name="quantity"
+                   value="<?= $data['quantity'] ?>">
         </div>
 
         <button type="submit" class="btn btn-primary">Lưu thông tin</button>
