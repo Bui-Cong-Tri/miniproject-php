@@ -31,7 +31,7 @@ class AuthenticationController
         $remember = $_POST['remember'];
         $result = $this->model->authenticate(array("email" => $username, "password" => $password));
         if ($result) {
-            setcookie('accessToken', $this->jwtUtils->generateToken(array("code" => $result["code"], "email" => $result["email"]), $remember), time() + JwtUtils::$expirationTime, '/');
+            setcookie('accessToken', $this->jwtUtils->generateToken(array("code" => $result["code"], "email" => $result["email"]), $remember), time() + JwtUtils::$expirationTimeForRememberMe, '/');
             header("location: index.php");
         } else {
             setcookie('msg', 'Đăng nhập không thành công', time() + 1);
@@ -39,7 +39,7 @@ class AuthenticationController
         }
     }
 
-    public function register(): void
+    public function signup(): void
     {
         include 'views/register-form.php';
     }

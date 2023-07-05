@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
 <head>
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
@@ -31,10 +29,13 @@
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">
                     <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                <div class="flex">
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    <a href="?mod=authentication&act=signup" type="button" class="btn btn-link">Đăng ký</a>
+                </div>
+
             </form>
         </div>
     </div>
 </div>
 </body>
-</html>

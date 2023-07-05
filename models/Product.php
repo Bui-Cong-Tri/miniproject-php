@@ -1,15 +1,13 @@
 <?php
-include_once('Connection.php');
+include_once('Model.php');
 
-class Product
+class Product extends Model
 {
     function All(): array
     {
-        global $conn;
-        require_once('db_connect.php');
         $data = array();
         $sql = "SELECT * FROM products";
-        $result = $conn->query($sql);
+        $result = $this->conn->query($sql);
         while ($row = $result->fetch_assoc()) {
             $data[] = $row;
         }
@@ -18,10 +16,8 @@ class Product
 
     function find($code)
     {
-        global $conn;
-        require_once('db_connect.php');
         $sql = "SELECT * FROM products WHERE code='" . $code . "'";
-        return $conn->query($sql)->fetch_assoc();
+        return $this->conn->query($sql)->fetch_assoc();
     }
 
     /**
@@ -29,15 +25,13 @@ class Product
      */
     function insert($data): mysqli_result|bool|array
     {
-        global $conn;
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
         if (!empty($err)) {
             throw new FormValidationException($err);
         }
-        require_once('db_connect.php');
         $sql = "INSERT INTO products (code,name,description,quanity) VALUES ('" . $data['code'] . "','" . $data['name'] . "','" . $data['description'] . "','" . $data['quanity'] . "')";
-        return $conn->query($sql);
+        return $this->conn->query($sql);
     }
 
     /**
@@ -45,23 +39,19 @@ class Product
      */
     function update($data): mysqli_result|bool
     {
-        global $conn;
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
         if (!empty($err)) {
             throw new FormValidationException($err);
         }
-        require_once('db_connect.php');
         $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quanity'] . "' WHERE code='" . $data['code'] . "'";
-        return $conn->query($sql);
+        return $this->conn->query($sql);
     }
 
     function delete($data): mysqli_result|bool
     {
-        global $conn;
-        require_once('db_connect.php');
         $sql = "DELETE FROM products WHERE code='" . $data . "'";
-        return $conn->query($sql);
+        return $this->conn->query($sql);
     }
 
     function validate($data): array

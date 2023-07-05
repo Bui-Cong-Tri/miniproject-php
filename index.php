@@ -14,6 +14,7 @@ if ($result) {
         $act = 'login';
     }
 }
+
 $controllerClassName = ucfirst($mod) . 'Controller';
 $controllerFile = "controllers/" . $controllerClassName . '.php';
 

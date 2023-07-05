@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
 <head>
     <title>Form Đăng ký</title>
     <link rel="stylesheet" href="/public/vendor/bootstrap/css/bootstrap.min.css">
@@ -31,11 +29,12 @@
             <label for="email">Email:</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
-
-        <button type="submit" class="btn btn-primary">Đăng ký</button>
+        <div class="flex">
+            <button type="submit" class="btn btn-primary">Đăng ký</button>
+            <a href="?mod=authentication&act=login" type="button" class="btn btn-link">Đăng nhập</a>
+        </div>
     </form>
 </div>
 
 <script src="/public/vendor/bootstrap/js/bootstrap.min.js"></script>
 </body>
-</html>
