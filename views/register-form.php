@@ -17,7 +17,7 @@
     <form action="?mod=authentication&act=createAccount" method="POST" role="form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Tên đăng nhập:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" value="<?= $data['name'] ?>" required>
         </div>
 
         <div class="form-group">

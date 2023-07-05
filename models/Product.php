@@ -1,15 +1,13 @@
 <?php
-include_once('Connection.php');
+include_once('Model.php');
 
-class Product
+class Product extends Model
 {
     function All(): array
     {
-        global $conn;
-        require_once('db_connect.php');
         $data = array();
         $sql = "SELECT * FROM products";
-        $result = $conn->query($sql);
+        $result = $this->conn->query($sql);
         while ($row = $result->fetch_assoc()) {
             $data[] = $row;
         }
@@ -18,10 +16,8 @@ class Product
 
     function find($code)
     {
-        global $conn;
-        require_once('db_connect.php');
         $sql = "SELECT * FROM products WHERE code='" . $code . "'";
-        return $conn->query($sql)->fetch_assoc();
+        return $this->conn->query($sql)->fetch_assoc();
     }
 
     /**
@@ -29,7 +25,6 @@ class Product
      */
     function insert($data, $file): mysqli_result|bool|array
     {
-        global $conn;
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
         if (!empty($err)) {
@@ -43,14 +38,13 @@ class Product
         $file_ext = strtolower(end($div));
         $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
         $upload_image = 'image/'.$unique_image;
-        require_once('db_connect.php');
 
         //$sql = "INSERT INTO products (code,name,description,quantity, image) VALUES ('".$data['code']."','".$file_name."','".$file_size."','".$data['quantity']."','".$upload_image."')";
         //if($conn->query($sql) === false) echo mysqli_error($conn);
         $ok = false;
         try {
             move_uploaded_file($file_temp, $upload_image);
-            $stm = $conn->prepare("INSERT INTO products (code, name, description, quantity, image) VALUES (?, ?, ?, ?, ?)");
+            $stm = $this->conn->prepare("INSERT INTO products (code, name, description, quantity, image) VALUES (?, ?, ?, ?, ?)");
             $stm->bind_param('sssis', $data['code'], $data['name'], $data['description'], $data['quantity'], $upload_image);
             $stm->execute();
             $stm->close();
@@ -58,7 +52,7 @@ class Product
         } catch (Exception $e) {
             echo $e;
         }
-        $conn->close();
+        $this->conn->close();
         return $ok;
     }
 
@@ -67,7 +61,6 @@ class Product
      */
     function update($data, $file): mysqli_result|bool
     {
-        global $conn;
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
         if (!empty($err)) {
@@ -82,9 +75,8 @@ class Product
         $file_ext = strtolower(end($div));
         $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
         $upload_image = 'image/'.$unique_image;
-        require_once('db_connect.php');
         $img_sql = "SELECT * FROM products WHERE code='" . $data['code'] . "'";
-        $img_res = $conn->query($img_sql);
+        $img_res = $this->conn->query($img_sql);
         if ($img_res) {
             while($row = mysqli_fetch_assoc($img_res)) {
                 $img = $row['image'];
@@ -93,15 +85,13 @@ class Product
         }
         move_uploaded_file($file_temp, $upload_image);
         $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quantity'] . "',image='" . $upload_image . "' WHERE code='" . $data['code'] . "'";
-        return $conn->query($sql);
+        return $this->conn->query($sql);
     }
 
     function delete($data): mysqli_result|bool
     {
-        global $conn;
-        require_once('db_connect.php');
         $sql = "DELETE FROM products WHERE code='" . $data . "'";
-        return $conn->query($sql);
+        return $this->conn->query($sql);
     }
 
     function validate($data): array

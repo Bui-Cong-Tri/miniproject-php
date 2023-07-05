@@ -9,12 +9,19 @@
             <h2 class="mt-4">Đăng nhập</h2>
             <?php
             if (isset($_COOKIE['msg'])) {
+                if ($_COOKIE['msg'] == 'Tạo tài khoản thành công'){
                 ?>
-                <div class="alert alert-danger">
-                    <strong>Cảnh báo!</strong> <?php echo $_COOKIE['msg']; ?>
+                <div class="alert alert-success">
+                    <?php echo $_COOKIE['msg']; ?>
                 </div>
                 <?php
-            }
+            } else {
+                ?>
+                <div class="alert alert-danger">
+                    <strong>Cảnh báo!</strong><?php echo $_COOKIE['msg']?>
+                </div>
+            <?php
+            }}
             ?>
             <form action="?mod=authentication&act=authenticate" method="post" role="form" enctype="multipart/form-data">
                 <div class="form-group">
