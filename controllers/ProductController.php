@@ -31,9 +31,9 @@ class ProductController
     function store(): void
     {
         $data = $_POST;
+        $file = $_FILES;
         try {
-            echo "ok";
-            $status = $this->model->insert($data);
+            $status = $this->model->insert($data, $file);
             echo $status;
             if ($status) {
                 setcookie('msg', 'Thêm mới thành công', time() + 1);
@@ -58,9 +58,10 @@ class ProductController
     function update(): void
     {
         $data = $_POST;
+        $file = $_FILES;
         echo $data['quantity'];
         try {
-            $status = $this->model->update($data);
+            $status = $this->model->update($data, $file);
             if ($status) {
                 setcookie('msg', 'Sửa thành công', time() + 1);
                 header('location: index.php?mod=product');

@@ -34,7 +34,7 @@ class AuthenticationController
             setcookie('accessToken', $this->jwtUtils->generateToken(array("code" => $result["code"], "email" => $result["email"]), $remember), time() + JwtUtils::$expirationTimeForRememberMe, '/');
             header("location: index.php");
         } else {
-            setcookie('msg', 'Đăng nhập không thành công', time() + 1);
+            setcookie('msg', 'Email hoặc mật khẩu không đúng', time() + 1);
             header("location: index.php?mod=authentication&act=login");
         }
     }
@@ -47,6 +47,7 @@ class AuthenticationController
     public function createAccount(): void
     {
         $data = $_POST;
+        echo $data['name'];
         try {
             $status = $this->model->insert($data);
             if ($status) {
@@ -54,11 +55,11 @@ class AuthenticationController
                 header('location: index.php?mod=product&act=list');
             } else {
                 setcookie('msg', 'Tạo tài khoản không thành công', time() + 1);
-                header('location: index.php?mod=authentication&act=register');
+                header('location: index.php?mod=authentication&act=signup');
             }
         } catch (FormValidationException $e) {
             setcookie('msg', $e->getMessage(), time() + 1);
-            header('location: index.php?mod=authentication&act=register');
+            header('location: index.php?mod=authentication&act=signup');
         }
     }
 }

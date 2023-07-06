@@ -14,7 +14,7 @@ class Product extends Model
         return $data;
     }
 
-    function find($code): bool|array|null
+    function find($code)
     {
         $sql = "SELECT * FROM products WHERE code='" . $code . "'";
         return $this->conn->query($sql)->fetch_assoc();
@@ -23,37 +23,68 @@ class Product extends Model
     /**
      * @throws FormValidationException
      */
-    function insert($data): mysqli_result|bool|array
+    function insert($data, $file): mysqli_result|bool|array
     {
         include_once('exception/FormValidationException.php');
         $err = $this->validate($data);
         if (!empty($err)) {
             throw new FormValidationException($err);
         }
+        $permited = array('jpg', 'jpeg', 'png', 'gif');
+        $file_name = $file['photo']['name'];
+        $file_size = $file['photo']['size'];
+        $file_temp = $file['photo']["tmp_name"];
+        $div = explode('.', $file_name);
+        $file_ext = strtolower(end($div));
+        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
+        $upload_image = 'image/'.$unique_image;
+
+        //$sql = "INSERT INTO products (code,name,description,quantity, image) VALUES ('".$data['code']."','".$file_name."','".$file_size."','".$data['quantity']."','".$upload_image."')";
         //if($conn->query($sql) === false) echo mysqli_error($conn);
+        $ok = false;
         try {
-            $stm = $this->conn->prepare("INSERT INTO products (code, name, description, quantity) VALUES (?, ?, ?, ?)");
-            $stm->bind_param('sssi', $data['code'], $data['name'], $data['description'], $data['quantity']);
+            move_uploaded_file($file_temp, $upload_image);
+            $stm = $this->conn->prepare("INSERT INTO products (code, name, description, quantity, image) VALUES (?, ?, ?, ?, ?)");
+            $stm->bind_param('sssis', $data['code'], $data['name'], $data['description'], $data['quantity'], $upload_image);
             $stm->execute();
             $stm->close();
+            $ok = true;
         } catch (Exception $e) {
             echo $e;
         }
         $this->conn->close();
-        return true;
+        return $ok;
     }
 
     /**
      * @throws FormValidationException
      */
-    function update($data): mysqli_result|bool
+    function update($data, $file): mysqli_result|bool
     {
         include_once('exception/FormValidationException.php');
-//        $err = $this->validate($data);
+        $err = $this->validate($data);
         if (!empty($err)) {
+            //require_once('views/product/edit.php');
             throw new FormValidationException($err);
         }
-        $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quantity'] . "' WHERE code='" . $data['code'] . "'";
+        $permited = array('jpg', 'jpeg', 'png', 'gif');
+        $file_name = $file['photo']['name'];
+        $file_size = $file['photo']['size'];
+        $file_temp = $file['photo']["tmp_name"];
+        $div = explode('.', $file_name);
+        $file_ext = strtolower(end($div));
+        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
+        $upload_image = 'image/'.$unique_image;
+        $img_sql = "SELECT * FROM products WHERE code='" . $data['code'] . "'";
+        $img_res = $this->conn->query($img_sql);
+        if ($img_res) {
+            while($row = mysqli_fetch_assoc($img_res)) {
+                $img = $row['image'];
+                unlink($img);
+            }
+        }
+        move_uploaded_file($file_temp, $upload_image);
+        $sql = "UPDATE products SET name='" . $data['name'] . "',description='" . $data['description'] . "',quantity='" . $data['quantity'] . "',image='" . $upload_image . "' WHERE code='" . $data['code'] . "'";
         return $this->conn->query($sql);
     }
 
