@@ -101,7 +101,7 @@ class Product extends Model
             if (empty($data["code"])) {
                 $codeErr = "Mã sản phẩm là trường bắt buộc.";
             } else {
-                $code = $this->test_input($data["code"]);
+                $code = $this->testInput($data["code"]);
                 if (!preg_match('/^[0-9]+$/', $code)) {
                     $codeErr = "Mã sản phẩm chỉ sử dụng số.";
                 }
@@ -109,7 +109,7 @@ class Product extends Model
             if (empty($data["name"])) {
                 $nameErr = "Tên sản phẩm là trường bắt buộc.";
             } else {
-                $name = $this->test_input($data["name"]);
+                $name = $this->testInput($data["name"]);
                 if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
                     $nameErr = "Tên sản phẩm chỉ cho phep có chữ cái và khoảng trắng.";
                 }
@@ -118,13 +118,13 @@ class Product extends Model
             if (empty($data["email"])) {
                 $emailErr = "Email là trường bắt buộc.";
             } else {
-                $email = $this->test_input($data["email"]);
+                $email = $this->testInput($data["email"]);
                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $emailErr = "Định dạng email không đúng.";
                 }
             }
             if (!empty($data["quantity"])) {
-                $quantity = $this->test_input($data["quantity"]);
+                $quantity = $this->testInput($data["quantity"]);
                 if (!ctype_digit($quantity)) {
                     $quantityErr = "Số lượng bắt buộc phải là số.";
                 }
@@ -145,7 +145,7 @@ class Product extends Model
         return $errList;
     }
 
-    private function test_input($data): string
+    private function testInput($data): string
     {
         $data = trim($data);
         $data = stripslashes($data);
