@@ -47,7 +47,6 @@ class AuthenticationController
     public function createAccount(): void
     {
         $data = $_POST;
-        echo $data['name'];
         try {
             $status = $this->model->insert($data);
             if ($status) {

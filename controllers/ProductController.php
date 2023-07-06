@@ -34,7 +34,6 @@ class ProductController
         $file = $_FILES;
         try {
             $status = $this->model->insert($data, $file);
-            echo $status;
             if ($status) {
                 setcookie('msg', 'Thêm mới thành công', time() + 1);
                 header('location: index.php?mod=product');
@@ -59,7 +58,6 @@ class ProductController
     {
         $data = $_POST;
         $file = $_FILES;
-        echo $data['quantity'];
         try {
             $status = $this->model->update($data, $file);
             if ($status) {

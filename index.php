@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include_once('utils/JwtFilter.php');
 include_once('enumeration/Permission.php');
 include_once('utils/JwtUtils.php');

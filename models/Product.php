@@ -36,9 +36,8 @@ class Product extends Model
         $file_temp = $file['photo']["tmp_name"];
         $div = explode('.', $file_name);
         $file_ext = strtolower(end($div));
-        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
-        $upload_image = 'image/'.$unique_image;
-
+        $unique_name = substr(md5(time()), 0, 10) . '.' . $file_ext;
+        $upload_image = 'image/' . $unique_name;
         //$sql = "INSERT INTO products (code,name,description,quantity, image) VALUES ('".$data['code']."','".$file_name."','".$file_size."','".$data['quantity']."','".$upload_image."')";
         //if($conn->query($sql) === false) echo mysqli_error($conn);
         $ok = false;
@@ -73,12 +72,12 @@ class Product extends Model
         $file_temp = $file['photo']["tmp_name"];
         $div = explode('.', $file_name);
         $file_ext = strtolower(end($div));
-        $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
-        $upload_image = 'image/'.$unique_image;
+        $unique_image = substr(md5(time()), 0, 10) . '.' . $file_ext;
+        $upload_image = 'image/' . $unique_image;
         $img_sql = "SELECT * FROM products WHERE code='" . $data['code'] . "'";
         $img_res = $this->conn->query($img_sql);
         if ($img_res) {
-            while($row = mysqli_fetch_assoc($img_res)) {
+            while ($row = mysqli_fetch_assoc($img_res)) {
                 $img = $row['image'];
                 unlink($img);
             }
